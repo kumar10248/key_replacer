@@ -1,0 +1,21 @@
+# Core dependencies
+keyboard>=0.13.5
+pyautogui>=0.9.54
+pygetwindow>=0.0.9
+pillow>=9.0.0
+
+# Configuration and data management
+appdirs>=1.4.4
+
+# Development dependencies (optional)
+# Uncomment for development
+# pytest>=7.0.0
+# black>=22.0.0
+# flake8>=4.0.0
+# mypy>=0.991
+# pre-commit>=2.20.0
+
+# Building and packaging
+pyinstaller>=6.0.0
+setuptools>=65.0.0
+wheel>=0.37.0
