@@ -16,18 +16,18 @@ A powerful, cross-platform text expansion tool that helps boost your productivit
 
 ### Download Pre-built Binaries
 
-Visit our [releases page](https://github.com/yourusername/key-replacer/releases) and download the appropriate version for your operating system:
+Visit our [releases page](https://github.com/kumar10248/key_replacer/releases) and download the appropriate version for your operating system:
 
 - **Windows**: `key-replacer-windows.exe`
-- **macOS**: `key-replacer-macos.dmg`
-- **Linux**: `key-replacer-linux.AppImage` or `.deb` package
+- **macOS**: `key-replacer-macos`
+- **Linux**: `key-replacer-linux`
 
 ### Install from Source
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/key-replacer.git
-cd key-replacer
+git clone https://github.com/kumar10248/key_replacer.git
+cd key_replacer
 
 # Install dependencies
 pip install -r requirements.txt
@@ -84,8 +84,8 @@ The application stores your text expansions in a local `mappings.json` file. You
 
 ```bash
 # Clone and setup
-git clone https://github.com/yourusername/key-replacer.git
-cd key-replacer
+git clone https://github.com/kumar10248/key_replacer.git
+cd key_replacer
 
 # Create virtual environment
 python -m venv venv
@@ -111,8 +111,8 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/key-replacer.git
-cd key-replacer
+git clone https://github.com/kumar10248/key_replacer.git
+cd key_replacer
 
 # Create development environment
 python -m venv venv
@@ -147,9 +147,9 @@ sudo apt-get install python3-tk python3-dev
 
 ### Getting Help
 
-- **Issues**: Report bugs on our [GitHub Issues](https://github.com/yourusername/key-replacer/issues)
-- **Discussions**: Join our [GitHub Discussions](https://github.com/yourusername/key-replacer/discussions)
-- **Wiki**: Check our [Wiki](https://github.com/yourusername/key-replacer/wiki) for detailed guides
+- **Issues**: Report bugs on our [GitHub Issues](https://github.com/kumar10248/key_replacer/issues)
+- **Discussions**: Join our [GitHub Discussions](https://github.com/kumar10248/key_replacer/discussions)
+- **Wiki**: Check our [Wiki](https://github.com/kumar10248/key_replacer/wiki) for detailed guides
 
 ## License
 
