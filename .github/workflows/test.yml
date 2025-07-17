@@ -1,0 +1,38 @@
+name: Simple Test Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Test basic setup
+      run: |
+        python --version
+        pip --version
+        ls -la
+        
+    - name: Check keyreplacer module
+      run: |
+        ls -la keyreplacer/
+        python -c "import sys; sys.path.insert(0, '.'); import keyreplacer; print('Import successful')"
+        
+    - name: Install minimal dependencies
+      run: |
+        pip install pyinstaller
+        
+    - name: Test PyInstaller
+      run: |
+        python -m PyInstaller --version

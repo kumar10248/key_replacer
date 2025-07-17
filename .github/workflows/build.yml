@@ -12,18 +12,16 @@ jobs:
         include:
           - os: ubuntu-latest
             artifact_name: key-replacer-linux
-            asset_name: key-replacer-linux
           - os: windows-latest
             artifact_name: key-replacer-windows.exe
-            asset_name: key-replacer-windows.exe
           - os: macos-latest
             artifact_name: key-replacer-macos
-            asset_name: key-replacer-macos
 
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -34,7 +32,7 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install -y python3-tk python3-dev
+        sudo apt-get install -y python3-tk
 
     - name: Install system dependencies (macOS)
       if: runner.os == 'macOS'
@@ -44,18 +42,84 @@ jobs:
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install keyboard pyautogui pillow appdirs pyinstaller
 
-    - name: Build executable
+    - name: Build with PyInstaller (Linux/macOS)
+      if: runner.os != 'Windows'
       run: |
-        python scripts/build_ci.py
+        python -m PyInstaller keyreplacer/main.py \
+          --name=key-replacer \
+          --onefile \
+          --windowed \
+          --hidden-import=keyreplacer \
+          --hidden-import=keyboard \
+          --hidden-import=pyautogui \
+          --hidden-import=tkinter \
+          --hidden-import=PIL
+
+    - name: Build with PyInstaller (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        python -m PyInstaller keyreplacer/main.py --name=key-replacer --onefile --windowed --hidden-import=keyreplacer --hidden-import=keyboard --hidden-import=pyautogui --hidden-import=tkinter --hidden-import=PIL
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: ${{ matrix.artifact_name }}
-        path: |
-          dist/*
+        path: dist/*
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Key Replacer ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Linux Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./key-replacer-linux/key-replacer
+        asset_name: key-replacer-linux
+        asset_content_type: application/octet-stream
+
+    - name: Upload Windows Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./key-replacer-windows.exe/key-replacer.exe
+        asset_name: key-replacer-windows.exe
+        asset_content_type: application/octet-stream
+
+    - name: Upload macOS Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./key-replacer-macos/key-replacer
+        asset_name: key-replacer-macos
+        asset_content_type: application/octet-stream
 
   release:
     needs: build
