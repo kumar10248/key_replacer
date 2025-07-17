@@ -99,7 +99,7 @@ jobs:
 
     - name: Build executable
       run: |
-        python scripts/build.py --clean
+        python scripts/build_ci.py
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
