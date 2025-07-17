@@ -18,11 +18,20 @@ jobs:
       with:
         python-version: '3.11'
         
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-tk
+        
     - name: Test basic setup
       run: |
         python --version
         pip --version
         ls -la
+        
+    - name: Test tkinter
+      run: |
+        python -c "import tkinter; print('tkinter works')"
         
     - name: Check keyreplacer module
       run: |
@@ -31,8 +40,13 @@ jobs:
         
     - name: Install minimal dependencies
       run: |
-        pip install pyinstaller
+        pip install keyboard pyautogui pillow appdirs pyinstaller
         
     - name: Test PyInstaller
       run: |
         python -m PyInstaller --version
+        
+    - name: Test simple build
+      run: |
+        python -m PyInstaller keyreplacer/main.py --name=test-build --onefile --windowed --hidden-import=keyreplacer
+        ls -la dist/
