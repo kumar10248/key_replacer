@@ -1,0 +1,93 @@
+name: Simple Build Only
+
+on:
+  push:
+    tags: [ 'v*' ]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    - run: sudo apt-get update && sudo apt-get install -y python3-tk
+    - run: pip install keyboard pyautogui pillow appdirs pyinstaller
+    - run: python -m PyInstaller keyreplacer/main.py --name=key-replacer --onefile --windowed --noconfirm
+    - uses: actions/upload-artifact@v3
+      with:
+        name: key-replacer-linux
+        path: dist/key-replacer
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    - run: pip install keyboard pyautogui pillow appdirs pyinstaller
+    - run: python -m PyInstaller keyreplacer/main.py --name=key-replacer --onefile --windowed --noconfirm
+    - uses: actions/upload-artifact@v3
+      with:
+        name: key-replacer-windows
+        path: dist/key-replacer.exe
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    - run: pip install keyboard pyautogui pillow appdirs pyinstaller
+    - run: python -m PyInstaller keyreplacer/main.py --name=key-replacer --onefile --windowed --noconfirm
+    - uses: actions/upload-artifact@v3
+      with:
+        name: key-replacer-macos
+        path: dist/key-replacer
+
+  release:
+    needs: [build-linux, build-windows, build-macos]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+    - uses: actions/download-artifact@v3
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Key Replacer ${{ github.ref }}
+        draft: false
+        prerelease: false
+    - name: Upload Linux
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./key-replacer-linux/key-replacer
+        asset_name: key-replacer-linux
+        asset_content_type: application/octet-stream
+    - name: Upload Windows
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./key-replacer-windows/key-replacer.exe
+        asset_name: key-replacer-windows.exe
+        asset_content_type: application/octet-stream
+    - name: Upload macOS
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./key-replacer-macos/key-replacer
+        asset_name: key-replacer-macos
+        asset_content_type: application/octet-stream
