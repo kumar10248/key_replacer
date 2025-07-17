@@ -16,17 +16,17 @@ A powerful, cross-platform text expansion tool that helps boost your productivit
 
 ### Download Pre-built Binaries
 
-Visit our [releases page](https://github.com/kumar10248/key-replacer/releases) and download the appropriate version for your operating system:
+Visit our [releases page](https://github.com/yourusername/key-replacer/releases) and download the appropriate version for your operating system:
 
 - **Windows**: `key-replacer-windows.exe`
-- **macOS**: `key-replacer-macos`
-- **Linux**: `key-replacer-linux`
+- **macOS**: `key-replacer-macos.dmg`
+- **Linux**: `key-replacer-linux.AppImage` or `.deb` package
 
 ### Install from Source
 
 ```bash
 # Clone the repository
-git clone https://github.com/kumar10248/key-replacer.git
+git clone https://github.com/yourusername/key-replacer.git
 cd key-replacer
 
 # Install dependencies
@@ -84,7 +84,7 @@ The application stores your text expansions in a local `mappings.json` file. You
 
 ```bash
 # Clone and setup
-git clone https://github.com/kumar10248/key-replacer.git
+git clone https://github.com/yourusername/key-replacer.git
 cd key-replacer
 
 # Create virtual environment
@@ -98,7 +98,7 @@ pip install -r requirements-dev.txt
 pytest
 
 # Build executable
-python scripts/build.py
+python build_scripts/build.py
 
 # The executable will be in the dist/ directory
 ```
@@ -111,7 +111,7 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 ```bash
 # Clone the repository
-git clone https://github.com/kumar10248/key-replacer.git
+git clone https://github.com/yourusername/key-replacer.git
 cd key-replacer
 
 # Create development environment
@@ -147,9 +147,9 @@ sudo apt-get install python3-tk python3-dev
 
 ### Getting Help
 
-- **Issues**: Report bugs on our [GitHub Issues](https://github.com/kumar10248/key-replacer/issues)
-- **Discussions**: Join our [GitHub Discussions](https://github.com/kumar10248/key-replacer/discussions)
-- **Wiki**: Check our [Wiki](https://github.com/kumar10248/key-replacer/wiki) for detailed guides
+- **Issues**: Report bugs on our [GitHub Issues](https://github.com/yourusername/key-replacer/issues)
+- **Discussions**: Join our [GitHub Discussions](https://github.com/yourusername/key-replacer/discussions)
+- **Wiki**: Check our [Wiki](https://github.com/yourusername/key-replacer/wiki) for detailed guides
 
 ## License
 

@@ -28,7 +28,7 @@ def parse_arguments():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(
         description="Key Replacer - A cross-platform text expansion tool",
-        epilog="For more information, visit: https://github.com/kumar10248/key-replacer"
+        epilog="For more information, visit: https://github.com/yourusername/key-replacer"
     )
     
     parser.add_argument(

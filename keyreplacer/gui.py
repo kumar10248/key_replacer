@@ -763,11 +763,11 @@ Uses keyboard and pyautogui libraries"""
 
     def open_website(self):
         """Open the project website."""
-        webbrowser.open("https://github.com/kumar10248/key-replacer")
+        webbrowser.open("https://github.com/yourusername/key-replacer")
 
     def report_issue(self):
         """Open the issue reporting page."""
-        webbrowser.open("https://github.com/kumar10248/key-replacer/issues")
+        webbrowser.open("https://github.com/yourusername/key-replacer/issues")
 
     def restore_window_geometry(self):
         """Restore window position and size from configuration."""
