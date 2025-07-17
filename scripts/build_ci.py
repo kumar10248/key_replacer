@@ -66,18 +66,32 @@ def main():
         "--hidden-import=tkinter.ttk",
         "--hidden-import=tkinter.messagebox",
         "--hidden-import=tkinter.filedialog",
+        "--hidden-import=tkinter.scrolledtext",
         "--hidden-import=PIL",
         "--hidden-import=PIL.Image",
         "--hidden-import=PIL.ImageTk",
         "--hidden-import=appdirs",
+        "--hidden-import=json",
+        "--hidden-import=logging",
+        "--hidden-import=threading",
+        "--hidden-import=pathlib",
+        "--hidden-import=os",
+        "--hidden-import=sys",
+        "--hidden-import=platform",
+        "--collect-submodules=keyreplacer",
     ])
     
     print(f"Building Key Replacer for {system}...")
+    print(f"Python executable: {sys.executable}")
+    print(f"Working directory: {os.getcwd()}")
+    print(f"Main script path: {main_script}")
+    print(f"Main script exists: {main_script.exists()}")
     print(f"Command: {' '.join(cmd)}")
     
     try:
-        result = subprocess.run(cmd, check=True)
+        result = subprocess.run(cmd, check=True, capture_output=True, text=True)
         print("Build completed successfully!")
+        print("STDOUT:", result.stdout[-1000:] if result.stdout else "No stdout")
         
         # Show what was created
         dist_dir = project_root / "dist"
@@ -89,14 +103,20 @@ def main():
                     size_bytes = item.stat().st_size
                     size = f" ({size_bytes / (1024*1024):.1f} MB)"
                 print(f"  {item.name}{size}")
+        else:
+            print("ERROR: dist directory not created")
         
         return 0
         
     except subprocess.CalledProcessError as e:
         print(f"Build failed with exit code {e.returncode}")
+        print("STDOUT:", e.stdout[-1000:] if e.stdout else "No stdout")
+        print("STDERR:", e.stderr[-1000:] if e.stderr else "No stderr")
         return e.returncode
     except Exception as e:
         print(f"Build failed: {e}")
+        import traceback
+        traceback.print_exc()
         return 1
 
 
