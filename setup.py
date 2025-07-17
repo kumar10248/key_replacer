@@ -19,7 +19,7 @@ setup(
     description="A cross-platform text expansion tool for productivity",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/key-replacer",
+    url="https://github.com/kumar10248/key-replacer",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
